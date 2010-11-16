@@ -1,11 +1,9 @@
-def prime = { num -> 
+def prime(num) { 
     if (num <= 3) 
         return true
         
-    if (num % 2 == 0) {
-        println "even number"
+    if (num % 2 == 0)
         return false
-    }
     
     def half = Math.floor(num / 2)
     mkodd = half % 2 ? 0 : 1
@@ -22,9 +20,10 @@ def prime = { num ->
 //println prime(15)
 
 def n = 600851475143
+def sq_n = Math.floor(Math.sqrt(n))
+sq_n += (sq_n % 2 ? 0 : 1)
 
-for (it = 3; it < 300425737571; it += 2) {
-    def div = Math.floor(n / it)
+for (div in (sq_n..3).step(2)) {
     if (n % div == 0 && prime(div)) 
         println "*** prime: $div ***"
 }
