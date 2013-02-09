@@ -1,7 +1,9 @@
-module Utils where
+module Utils (
+prime
+,fib
+) where
 
---prime :: Double -> Bool
-prime :: Int -> Bool
+prime :: Integral a => a -> Bool
 
 prime x
       | x < 2 = False
@@ -12,3 +14,9 @@ prime x = foldl (\acc n -> acc && (not $ x `mod` n == 0)) True [5,7..o]
 	      where   
 		     f = floor $ sqrt $ fromIntegral x
 		     o = if even f then f + 1 else f
+		
+fib :: Int -> Int
+
+fib 0 = 1
+fib 1 = 1
+fib n = fib (n-1) + fib (n-2)
