@@ -8,3 +8,10 @@ e2 = sum $ takeWhile ((>) 4000000) [x | x <- [fib x | x <- [1..]], even x]
 e3 :: (Integral a) => a -> a
 e3 n = head [x | x <- [f, f-1 .. 3], n `mod` x == 0, isPrime x]
        where f = floor $ sqrt $ fromIntegral n
+
+e4 :: [Int] -> [Int] -> [Int]
+e4 xs ys = [x * y | x <- xs, y <- ys, let s = show(x * y) in s == reverse s]
+
+-- problem #4 uses 2 3-digit numbers
+foldl max 0 $ e4 [100..999] [100..999]
+
