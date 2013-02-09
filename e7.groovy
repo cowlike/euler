@@ -19,13 +19,11 @@ def prime(num) {
     return true
 }
 
-def n = 600851475143
-def sq_n = Math.floor(Math.sqrt(n))
-sq_n += (sq_n % 2 ? 0 : 1)
-
-for (div in (sq_n..3).step(2)) {
-    if (n % div == 0 && prime(div)) {
-        println "$div is the largest prime factor"
+def nPrimes = 0
+def n = 2
+for (n; true; n++) {
+    if (prime(n) && (++nPrimes == 10001))
         break
-    }
 }
+
+n

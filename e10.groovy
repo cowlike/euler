@@ -19,13 +19,17 @@ def prime(num) {
     return true
 }
 
-def n = 600851475143
-def sq_n = Math.floor(Math.sqrt(n))
-sq_n += (sq_n % 2 ? 0 : 1)
+limit = 2000000
+def primes = [2,3]
 
-for (div in (sq_n..3).step(2)) {
-    if (n % div == 0 && prime(div)) {
-        println "$div is the largest prime factor"
-        break
-    }
+for (int n = 5; true; n++) {
+    if (prime(n)) {
+        if (n < limit)
+            primes << n
+         else
+             break
+     }
 }
+
+println "min:${primes.min()} max:${primes.max()} size:${primes.size()} sum:${primes.sum()}"
+println "inject: " + primes.inject(0L) { long t, long v -> t += v }
