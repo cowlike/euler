@@ -13,5 +13,10 @@ e4 :: [Int] -> [Int] -> [Int]
 e4 xs ys = [x * y | x <- xs, y <- ys, let s = show(x * y) in s == reverse s]
 
 -- problem #4 uses 2 3-digit numbers
-foldl max 0 $ e4 [100..999] [100..999]
+-- foldl max 0 $ e4 [100..999] [100..999]
 
+e5 :: Int -> Int -> [Int]
+e5 from to
+    | from < 0 = []
+	| to <= from = []
+-- e5 from to = dropWhile [to, to + to ..]
