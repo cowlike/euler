@@ -24,3 +24,12 @@ e5 from to
 	| to <= from = 0
 e5 from to = head $ dropWhile (\n -> not $ divBy n [from .. to-1]) [to, to + to ..]
 
+e6 :: [Int] -> Int
+e6 xs = sum xs * sum xs - sum [x * x | x <- xs]
+
+-- n = 10001 for problem #7
+e7 :: Int -> Int
+e7 n = head . drop (n - 1) . filter isPrime' $ [2..]
+
+
+
