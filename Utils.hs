@@ -5,7 +5,6 @@ isPrime
 ) where
 
 isPrime :: Integral a => a -> Bool
-
 isPrime x
       | x < 2 = False
 	  | x == 2 || x == 3 = True
@@ -18,7 +17,6 @@ isPrime x = foldl (\acc n -> (not $ x `mod` n == 0) && acc) True [5,7..o]
 		
 -- **************************************************************
 isPrime' :: Integral a => a -> Bool
-
 isPrime' x
       | x < 2 = False
 	  | x == 2 || x == 3 = True
@@ -31,7 +29,6 @@ isPrime' x = foldr (\n acc -> (not $ x `mod` n == 0) && acc) True [5,7..o]
 			 
 -- **************************************************************
 fib :: Int -> Int
-
 fib 0 = 1
 fib 1 = 1
 fib n = fib (n-1) + fib (n-2)
