@@ -66,5 +66,5 @@ e9 = head $ let r = [1..999] in
 
 -- sum all primes with a value < x
 -- use 2000000 for problem #10
-e10 :: Int -> Int
-e10 x = sum $ takeWhile ((>) x) $ filter isPrime' [2..]			  
+e10 :: Integer -> Integer
+e10 x = sum $ takeWhile ((>) x) $ filter isPrime [2..]
