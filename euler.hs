@@ -57,4 +57,14 @@ e8data = foldl1 (++) [
 e8 :: [Char] -> Int
 e8 s | length s < 5 = 0
 e8 s = max' $ map (\s -> product $ foldl (\acc n -> (read [n] :: Int) : acc) [] s) (partition s 5 1)
-   
+
+e9 = head $ let r = [1..999] in 
+            [a * b * c | a <- r, b <- r, c <- r, 
+			  a < b && b < c, 
+		      a + b + c == 1000, 
+			  a*a + b*b == c*c]
+
+-- sum all primes with a value < x
+-- use 2000000 for problem #10
+e10 :: Int -> Int
+e10 x = sum $ takeWhile ((>) x) $ filter isPrime' [2..]			  
