@@ -56,7 +56,7 @@ e8data = foldl1 (++) [
 	 
 e8 :: [Char] -> Int
 e8 s | length s < 5 = 0
-e8 s = max' $ map (\s -> product $ foldl (\acc n -> (read [n] :: Int) : acc) [] s) (partition s 5 1)
+e8 s = foldl1 max $ map (\s -> product $ foldl (\acc n -> (read [n] :: Int) : acc) [] s) (partition s 5 1)
 
 e9 = head $ let r = [1..999] in 
             [a * b * c | a <- r, b <- r, c <- r, 

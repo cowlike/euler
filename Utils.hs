@@ -3,7 +3,6 @@ isPrime
 ,isPrime'
 ,fib
 ,partition
-,max'
 ) where
 
 isPrime :: Integral a => a -> Bool
@@ -39,6 +38,3 @@ partition :: [a] -> Int -> Int -> [[a]]
 partition str partBy step 
           | length str < partBy = []
 		  | otherwise = take partBy str : partition (drop step str) partBy step
-
-max' :: Ord a => [a] -> a
-max' xs = foldl1 (\acc v -> max acc v) xs
