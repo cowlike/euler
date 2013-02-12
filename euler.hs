@@ -10,7 +10,7 @@ e3 n = head [x | x <- [f, f-1 .. 3], n `mod` x == 0, isPrime x]
        where f = floor $ sqrt $ fromIntegral n
 
 -- problem #4 uses 2 3-digit numbers
--- foldl max 0 $ e4 [100..999] [100..999]
+-- foldl1 max $ e4 [100..999] [100..999]
 e4 :: [Int] -> [Int] -> [Int]
 e4 xs ys = [x * y | x <- xs, y <- ys, let s = show(x * y) in s == reverse s]
 
@@ -68,3 +68,11 @@ e9 = head $ let r = [1..999] in
 -- use 2000000 for problem #10
 e10 :: Integer -> Integer
 e10 x = sum $ takeWhile ((>) x) $ filter isPrime [2..]
+
+{-
+e11
+let s = "abcdefghi" in [(x `mod` 3, floor $ (fromIntegral x) / 3, s !! x) | x <- [0..length s - 1]]
+-}
+-- e11 helper. assign coordinates to each position in a list
+makeCoord :: [a] -> [(Int, Int, a)]
+makeCoord s = [(x `mod` 3, floor $ (fromIntegral x) / 3, s !! x) | x <- [0..length s - 1]]
