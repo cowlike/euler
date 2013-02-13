@@ -69,10 +69,6 @@ e9 = head $ let r = [1..999] in
 e10 :: Integer -> Integer
 e10 x = sum $ takeWhile ((>) x) $ filter isPrime [2..]
 
-{-
-e11
-let s = "abcdefghi" in [(x `mod` 3, floor $ (fromIntegral x) / 3, s !! x) | x <- [0..length s - 1]]
--}
 e11data = [
 	08,02,22,97,38,15,00,40,00,75,04,05,07,78,52,12,50,77,91,08
 	,49,49,99,40,17,81,18,57,60,87,17,40,98,43,69,48,04,56,62,00
@@ -98,5 +94,11 @@ e11data = [
 -- e11 helper. assign coordinates to each position in a list. 2nd arg is row len
 makeCoord :: [a] -> Int -> [(Int, Int, a)]
 makeCoord s r = [
-    (x `mod` r, floor $ (fromIntegral x) / (fromIntegral r), s !! x) 
-	| x <- [0..length s - 1]]
+                  (x `mod` r, floor $ (fromIntegral x) / (fromIntegral r), s !! x) 
+	              | x <- [0..length s - 1]]
+
+makeCoord1 :: [a] -> Int -> [(Int, Int, a)]
+makeCoord1 s r = map (\n -> (n `mod` r, floor $ (fromIntegral n) / (fromIntegral r), s !! n))
+                     [0..length s - 1]
+					 
+--makeCoord2 s r = 
