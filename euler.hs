@@ -93,12 +93,18 @@ e11data = [
 
 -- e11 helper. assign coordinates to each position in a list. 2nd arg is row len
 makeCoord :: [a] -> Int -> [(Int, Int, a)]
-makeCoord s r = [
-                  (x `mod` r, floor $ (fromIntegral x) / (fromIntegral r), s !! x) 
-	              | x <- [0..length s - 1]]
+makeCoord s r = [(x, y, s !! (y * r + x)) | y <- [0..r - 1], x <- [0..r - 1]]
 
-makeCoord1 :: [a] -> Int -> [(Int, Int, a)]
-makeCoord1 s r = map (\n -> (n `mod` r, floor $ (fromIntegral n) / (fromIntegral r), s !! n))
-                     [0..length s - 1]
-					 
---makeCoord2 s r = 
+get :: Eq a => Int -> Int -> [(Int, Int, a)] -> Maybe (Int, Int, a)
+get x y lst = let result = filter (\(tx,ty,_) -> tx == x && ty == y) lst in
+    if (result == []) 
+        then Nothing 
+		else Just (head result)
+
+foo :: Int -> Int -> [Char]
+foo x y = let val = (get x y $ makeCoord e11data 20) in
+    case val of 
+         Nothing -> "n";
+	     Just a  -> show a
+
+
