@@ -96,16 +96,16 @@ makeCoord :: [a] -> Int -> [(Int, Int, a)]
 makeCoord s r = [(x, y, s !! (y * r + x)) | y <- [0..rows - 1], x <- [0..r - 1]]
                 where rows = floor $ (fromIntegral $ length s) / (fromIntegral r)
 
+mydata = makeCoord e11data 20
+
 get :: Eq a => Int -> Int -> [(Int, Int, a)] -> Maybe (Int, Int, a)
 get x y lst = let result = filter (\(tx,ty,_) -> tx == x && ty == y) lst in
     if (result == [])
         then Nothing 
         else Just (head result)
 
-foo :: Int -> Int -> [Char]
-foo x y = let val = (get x y $ makeCoord e11data 20) in
+foo :: Int -> Int -> [Int]
+foo x y = let val = get x y mydata in
     case val of 
-        Nothing -> "nothing";
-        Just (_,_,n)  -> show n
-
-
+        Nothing -> [];
+        Just (_,_,n)  -> [n]
