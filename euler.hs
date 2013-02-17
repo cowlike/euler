@@ -96,16 +96,29 @@ makeCoord :: [a] -> Int -> [(Int, Int, a)]
 makeCoord s r = [(x, y, s !! (y * r + x)) | y <- [0..rows - 1], x <- [0..r - 1]]
                 where rows = floor $ (fromIntegral $ length s) / (fromIntegral r)
 
-mydata = makeCoord e11data 20
-
-get :: Eq a => Int -> Int -> [(Int, Int, a)] -> Maybe (Int, Int, a)
-get x y lst = let result = filter (\(tx,ty,_) -> tx == x && ty == y) lst in
+get :: Eq a => [(Int, Int, a)] -> Int -> Int -> Maybe (Int, Int, a)
+get lst x y = let result = filter (\(tx,ty,_) -> tx == x && ty == y) lst in
     if (result == [])
         then Nothing 
         else Just (head result)
 
-foo :: Int -> Int -> [Int]
-foo x y = let val = get x y mydata in
-    case val of 
-        Nothing -> [];
-        Just (_,_,n)  -> [n]
+val (_,_,x) = x
+        
+zget :: [(Int, Int, Int)] -> (Int, Int) -> Int
+zget lst (x, y) = let result = filter (\(tx,ty,_) -> tx == x && ty == y) lst in
+    if (result == [])
+        then 0
+        else val $ head result
+
+myget = zget $ makeCoord e11data 20
+
+localNums :: Int -> Int -> [[(Int,Int)]]
+localNums x y = 
+    let z1 = zip [x..x+3] (repeat y)
+        z2 = zip [x..x+3] [y..y+3]              
+        z3 = zip (repeat x) [y..y+3]
+        z4 = zip [x,x-1..x-3] [y..y+3] in
+    z1 : z2 : z3 : z4 : []
+
+--e11 solution
+--foldl1 max $ foldl1 (++) [map product $ map (map myget) (localNums x y) | y <- [0..19], x <- [0..19]]
