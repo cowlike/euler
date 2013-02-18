@@ -1,4 +1,5 @@
 import Utils
+import qualified Data.List as L
 
 e1 = sum $ filter (\n -> n `mod` 3 == 0 || n `mod` 5 == 0) [1..999]
 
@@ -122,3 +123,13 @@ localNums x y =
 
 --e11 solution
 --foldl1 max $ foldl1 (++) [map product $ map (map myget) (localNums x y) | y <- [0..19], x <- [0..19]]
+
+trinum :: Integer -> Integer
+trinum x = L.foldl1' (+) [1..x]
+
+len' = succ . length
+
+divisors :: Integer -> Int
+divisors x = [div | div <- [1..floor $ fromInteger x / 2], x `mod` div == 0]
+--head [n | n <- [trinum x | x <- [1000..]], len' $ divisors n > 500]
+
