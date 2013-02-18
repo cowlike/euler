@@ -127,9 +127,7 @@ localNums x y =
 trinum :: Integer -> Integer
 trinum x = L.foldl1' (+) [1..x]
 
-len' = succ . length
-
-divisors :: Integer -> Int
-divisors x = [div | div <- [1..floor $ fromInteger x / 2], x `mod` div == 0]
+divisors :: Integer -> [Integer]
+divisors x = x : [div | div <- [1..floor $ fromInteger x / 2], x `mod` div == 0]
 --head [n | n <- [trinum x | x <- [1000..]], len' $ divisors n > 500]
 
