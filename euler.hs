@@ -126,20 +126,44 @@ localNums x y =
     z1 : z2 : z3 : z4 : []
 
 --e11 solution
---foldl1 max $ foldl1 (++) [map product $ map (map myget) (localNums x y) | y <- [0..19], x <- [0..19]]
+e11 = foldl1 max $ foldl1 (++) [map product $ map (map myget) (localNums x y) | y <- [0..19], x <- [0..19]]
 
+-- ===================================================================================
 trinum :: Integer -> Integer
 trinum x = L.foldl1' (+) [1..x]
 
 divisors :: Integer -> [Integer]
 divisors x = x : [div | div <- [1..floor $ fromInteger x / 2], x `mod` div == 0]
---head [n | n <- [trinum x | x <- [1000..]], lengthh $ divisors n > 500]
 
---let l = map divisors $ map trinum [1..100] in [let el = l!!x in (x, length el, el!!0) | x <- [0..99]]
+ldf :: Integer -> Integer -> Integer
+ldf k n | divides k n = k
+        | k^2 > n = n
+        | otherwise = ldf (k + 1) n
+        
+factors :: Int -> [Int]
+factors n | n < 1 = error "not positive"
+          | n == 1 = []
+          | otherwise = p : factors (div n p)
+                        where p = ldf 2 n
+
+e12 = head [n | n <- [trinum x | x <- [1000..]], (length.divisors) n > 500]
 
 -- ===================================================================================
-    e13 :: FilePath -> IO [Integer]
+e13 :: FilePath -> IO [Integer]
 e13 dataFile = map read <$> lines <$> readFile dataFile
 
+-- solution: e13' "e13.dat"
 e13' :: FilePath -> IO String
 e13' dataFile = (take 10).show.sum.(map read).lines <$> readFile dataFile
+
+-- ===================================================================================
+collatz :: Integral a => a -> [a]
+collatz n
+    | n == 1 = [1]
+    | even n = n : (collatz $ floor (fromIntegral n / 2))
+    | odd n = n : (collatz $ 3 * n + 1)
+    
+maxTuple (f1,s1) (f2,s2) = if s1 > s2 then (f1,s1) else (f2,s2)
+
+e14 = foldl1 maxTuple [(n, (length.collatz) n) | n <- [13..999999]]
+-- ===================================================================================
