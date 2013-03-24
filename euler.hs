@@ -126,18 +126,19 @@ localNums x y =
     z1 : z2 : z3 : z4 : []
 
 --e11 solution
-e11 = foldl1 max $ foldl1 (++) [map product $ map (map myget) (localNums x y) | y <- [0..19], x <- [0..19]]
+e11 = maximum $ foldl1 (++) [map product $ map (map myget) (localNums x y) | y <- [0..19], x <- [0..19]]
 
 -- ===================================================================================
 trinum :: Integer -> Integer
 trinum x = L.foldl1' (+) [1..x]
 
 divisors :: Integer -> [Integer]
-divisors' x = x : [div | div <- [1..div x 2], x `mod` div == 0]
-divisors n = (1:) $ L.nub $ concat [ [x, div n x] | x <- [2..limit], rem n x == 0 ]
-     where limit = (floor.sqrt.fromIntegral) n
-     
-e12 = head [n | n <- [trinum x | x <- [1000..]], (length.divisors) n > 500]
+divisors x = x : [div | div <- [1..div x 2], x `mod` div == 0]
+
+divisors' n = (1:) $ L.nub $ concat [ [x, div n x] | x <- [2..limit], rem n x == 0 ]
+    where limit = (floor.sqrt.fromIntegral) n
+
+e12 = head [n | n <- [trinum x | x <- [1000..]], (length.divisors') n > 500]
 
 -- ===================================================================================
 e13 :: FilePath -> IO [Integer]
@@ -158,3 +159,4 @@ maxTuple (f1,s1) (f2,s2) = if s1 > s2 then (f1,s1) else (f2,s2)
 
 e14 = foldl1 maxTuple [(n, (length.collatz) n) | n <- [13..999999]]
 -- ===================================================================================
+
