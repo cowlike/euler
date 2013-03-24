@@ -133,19 +133,10 @@ trinum :: Integer -> Integer
 trinum x = L.foldl1' (+) [1..x]
 
 divisors :: Integer -> [Integer]
-divisors x = x : [div | div <- [1..floor $ fromInteger x / 2], x `mod` div == 0]
-
-ldf :: Integer -> Integer -> Integer
-ldf k n | divides k n = k
-        | k^2 > n = n
-        | otherwise = ldf (k + 1) n
-        
-factors :: Int -> [Int]
-factors n | n < 1 = error "not positive"
-          | n == 1 = []
-          | otherwise = p : factors (div n p)
-                        where p = ldf 2 n
-
+divisors' x = x : [div | div <- [1..div x 2], x `mod` div == 0]
+divisors n = (1:) $ L.nub $ concat [ [x, div n x] | x <- [2..limit], rem n x == 0 ]
+     where limit = (floor.sqrt.fromIntegral) n
+     
 e12 = head [n | n <- [trinum x | x <- [1000..]], (length.divisors) n > 500]
 
 -- ===================================================================================
