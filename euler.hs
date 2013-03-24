@@ -1,5 +1,6 @@
 import Utils
 import qualified Data.List as L
+import Control.Applicative
 
 e1 = sum $ filter (\n -> n `mod` 3 == 0 || n `mod` 5 == 0) [1..999]
 
@@ -32,6 +33,7 @@ e6 xs = sum xs * sum xs - sum [x * x | x <- xs]
 e7 :: Int -> Int
 e7 n = head . drop (n - 1) . filter isPrime' $ [2..]
 
+-- ===================================================================================
 -- data for problem #8
 e8data = foldl1 (++) [
      "73167176531330624919225119674426574742355349194934"
@@ -59,12 +61,14 @@ e8 :: [Char] -> Int
 e8 s | length s < 5 = 0
 e8 s = foldl1 max $ map (\s -> product $ foldl (\acc n -> (read [n] :: Int) : acc) [] s) (partition s 5 1)
 
+-- ===================================================================================
 e9 = head $ let r = [1..999] in 
             [a * b * c | a <- r, b <- r, c <- r, 
               a < b && b < c, 
               a + b + c == 1000, 
               a*a + b*b == c*c]
 
+-- ===================================================================================
 -- sum all primes with a value < x
 -- use 2000000 for problem #10
 e10 :: Integer -> Integer
@@ -92,6 +96,7 @@ e11data = [
     ,20,73,35,29,78,31,90,01,74,31,49,71,48,86,81,16,23,57,05,54
     ,01,70,54,71,83,51,54,69,16,92,33,48,61,43,52,01,89,19,67,48]
 
+-- ===================================================================================
 -- e11 helper. assign coordinates to each position in a list. 2nd arg is row len
 makeCoord :: [a] -> Int -> [(Int, Int, a)]
 makeCoord s r = [(x, y, s !! (y * r + x)) | y <- [0..rows - 1], x <- [0..r - 1]]
@@ -103,13 +108,12 @@ get lst x y = let result = filter (\(tx,ty,_) -> tx == x && ty == y) lst in
         then Nothing 
         else Just (head result)
 
-val (_,_,x) = x
-        
 zget :: [(Int, Int, Int)] -> (Int, Int) -> Int
 zget lst (x, y) = let result = filter (\(tx,ty,_) -> tx == x && ty == y) lst in
     if (result == [])
         then 0
         else val $ head result
+        where val (_,_,x) = x
 
 myget = zget $ makeCoord e11data 20
 
@@ -129,5 +133,13 @@ trinum x = L.foldl1' (+) [1..x]
 
 divisors :: Integer -> [Integer]
 divisors x = x : [div | div <- [1..floor $ fromInteger x / 2], x `mod` div == 0]
---head [n | n <- [trinum x | x <- [1000..]], len' $ divisors n > 500]
+--head [n | n <- [trinum x | x <- [1000..]], lengthh $ divisors n > 500]
 
+--let l = map divisors $ map trinum [1..100] in [let el = l!!x in (x, length el, el!!0) | x <- [0..99]]
+
+-- ===================================================================================
+    e13 :: FilePath -> IO [Integer]
+e13 dataFile = map read <$> lines <$> readFile dataFile
+
+e13' :: FilePath -> IO String
+e13' dataFile = (take 10).show.sum.(map read).lines <$> readFile dataFile
