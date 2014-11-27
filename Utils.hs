@@ -1,32 +1,18 @@
 module Utils (
 isPrime
-,isPrime'
 ,fib
 ,partition
 ) where
 
 isPrime :: Integral a => a -> Bool
-isPrime x
-      | x < 2 = False
-      | x == 2 || x == 3 = True
-      | x `mod` 2 == 0 || x `mod` 3 == 0 = False
-
-isPrime x = foldl (\acc n -> (not $ x `mod` n == 0) && acc) True [5,7..o]
-          where   
-             f = floor $ sqrt $ fromIntegral x
-             o = if even f then f + 1 else f
-        
--- **************************************************************
-isPrime' :: Integral a => a -> Bool
-isPrime' x
-      | x < 2 = False
-      | x == 2 || x == 3 = True
-      | x `mod` 2 == 0 || x `mod` 3 == 0 = False
-
-isPrime' x = foldr (\n acc -> (not $ x `mod` n == 0) && acc) True [5,7..o]
-          where   
-             f = floor $ sqrt $ fromIntegral x
-             o = if even f then f + 1 else f
+isPrime n
+  | n <= 3 = n > 1
+  | n `mod` 2 == 0 || n `mod` 3 == 0 = False
+  | otherwise = testPrime n 5
+      where testPrime n i
+              | i * i > n = True
+              | n `mod` i == 0 || n `mod` (i + 2) == 0 = False
+              | otherwise = testPrime n (i + 6)
              
 -- **************************************************************
 fib :: Int -> Int
