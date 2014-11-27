@@ -31,7 +31,7 @@ e6 xs = sum xs * sum xs - sum [x * x | x <- xs]
 
 -- n = 10001 for problem #7
 e7 :: Int -> Int
-e7 n = head . drop (n - 1) . filter isPrime' $ [2..]
+e7 n = head . drop (n - 1) . filter isPrime $ [2..]
 
 -- ===================================================================================
 -- data for problem #8
