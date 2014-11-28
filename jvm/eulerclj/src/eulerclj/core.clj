@@ -5,8 +5,7 @@
 (defn -main
   "run some Euler functions"
   [& args]
-  (let [e3 (-> 600851475143 prime-divisors last)]
-    (println "e3 = " e3)))
+  (println "e3 = " (e3)))
 
 (defn e1 []
   (->> 1000
