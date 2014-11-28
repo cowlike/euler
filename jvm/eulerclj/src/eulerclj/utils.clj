@@ -34,6 +34,8 @@
     (+ (fib (dec n)) (fib (- n 2)))))
 
 (defn fibfast
-  ([] (fibfast 100 [0 1]))
-  ([max] (fibfast max [0 1]))
-  ([max coll] (if (> (last coll) max) (drop-last coll) (recur max (conj coll (+ (last coll) (last (butlast coll))))))))
+  ([] (fibfast 100 '(1 0)))
+  ([max] (fibfast max '(1 0)))
+  ([max coll] (if (> (first coll) max) 
+                (reverse (rest coll)) 
+                (recur max (cons (+ (first coll) (second coll)) coll )))))
