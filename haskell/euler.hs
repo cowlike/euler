@@ -1,6 +1,7 @@
 import Utils
 import qualified Data.List as L
 import Control.Applicative
+import Data.Function.Memoize
 
 e1 = sum $ filter (\n -> n `mod` 3 == 0 || n `mod` 5 == 0) [1..999]
 
@@ -100,7 +101,7 @@ e11data = [
 -- e11 helper. assign coordinates to each position in a list. 2nd arg is row len
 makeCoord :: [a] -> Int -> [(Int, Int, a)]
 makeCoord s r = [(x, y, s !! (y * r + x)) | y <- [0..rows - 1], x <- [0..r - 1]]
-                where rows = floor $ (fromIntegral $ length s) / (fromIntegral r)
+                where rows = (length s) `div` r
 
 get :: Eq a => [(Int, Int, a)] -> Int -> Int -> Maybe (Int, Int, a)
 get lst x y = let result = filter (\(tx,ty,_) -> tx == x && ty == y) lst in
@@ -126,7 +127,9 @@ localNums x y =
     z1 : z2 : z3 : z4 : []
 
 --e11 solution
-e11 = maximum $ foldl1 (++) [map product $ map (map myget) (localNums x y) | y <- [0..19], x <- [0..19]]
+e11 = maximum $ 
+        foldl1 (++) 
+          [map product $ map (map myget) (localNums x y) | y <- [0..19], x <- [0..19]]
 
 -- ===================================================================================
 trinum :: Integer -> Integer
@@ -160,3 +163,21 @@ maxTuple (f1,s1) (f2,s2) = if s1 > s2 then (f1,s1) else (f2,s2)
 e14 = foldl1 maxTuple [(n, (length.collatz) n) | n <- [13..999999]]
 -- ===================================================================================
 
+foo (0,0) = [(0,0)]
+foo (0,y) = (0, y) : foo (0, (y - 1))
+foo (x,0) = (x, 0) : foo ((x - 1), 0)
+-- foo (x,y) = ((x, y) : foo ((x - 1), y)) ++ ((x, y) : foo (x, (y - 1)))
+foo (x,y) = (x, y) : (foo ((x - 1), y) ++ foo (x, (y - 1)))
+
+e15 (0,0) = 1
+e15 (0,y) = e15 (0, y - 1)
+e15 (x,0) = e15 (x - 1, 0)
+e15 (x,y) = e15 (x - 1, y) + e15 (x, y - 1)
+
+e15' = memoize2 e15
+
+-- sum [1 | (x,y) <- e15 (20,20), x == 0, y == 0]
+-- [t | t <- let max=2 in [(x,y) | x <- [0..max], y <- [0..max]], if x==0 || y == 0 then 1 else 2 ]
+atBoundary min max (x,y) = x == min || x == max || y == min || y == max
+moves min max (x,y) = if not (atBoundary min max (x,y)) || (x == min && y == min) then 2 else 1
+grid x y = [(x,y) | x <- [0..x], y <- [0..y]]

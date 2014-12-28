@@ -2,11 +2,6 @@
   (:use eulerclj.utils)
   (:gen-class))
 
-(defn -main
-  "run some Euler functions"
-  [& args]
-  (println "e3 = " (e3)))
-
 (defn e1 []
   (->> 1000
     range
@@ -52,3 +47,20 @@
       (map mknums)
       (map #(reduce * %))
       (apply max))))
+
+(defn e9 []
+  (let [n 998]
+    (for [a (range 1 n) b (range (inc a) n) c (range (inc b) n)
+          :when (= (+ (* a a) (* b b)) (* c c))
+          :when (= 1000 (+ a b c))]
+      (* a b c))))
+
+(defn e10 []
+  (apply + (for [x (gen-primes) :when (< x 2000000)] x)))
+
+;;========================================
+(defn -main
+  "run some Euler functions"
+  [& args]
+  (println "e3 = " (e3)))
+

@@ -1,5 +1,6 @@
 module Utils (
 isPrime
+,genPrimes
 ,fib
 ,partition
 ) where
@@ -14,6 +15,8 @@ isPrime n
               | n `mod` i == 0 || n `mod` (i + 2) == 0 = False
               | otherwise = testPrime n (i + 6)
              
+genPrimes = [x | x <- [2..], isPrime x]
+
 -- **************************************************************
 fib :: Int -> Int
 fib 0 = 0

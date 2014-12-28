@@ -16,10 +16,17 @@
       (= 0 (mod n 3)) false
       :else (p-test n 5))))
 
+;;--------------------------------
+(defn sieve [n]
+  (let [xs (range 2 (inc n))]
+    (first xs)))
+    
+;;--------------------------------
+
 (defn gen-primes
   "Brute force... should use sieve but whatever"
   []
-  (filter prime? (drop 2 (range))))
+  (for [x (drop 2 (range)) :when (prime? x)] x))
 
 (defn prime-divisors
   "return a sequence of divisors of n that are prime"
