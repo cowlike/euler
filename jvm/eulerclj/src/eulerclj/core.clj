@@ -58,6 +58,15 @@
 (defn e10 []
   (apply + (for [x (gen-primes) :when (< x 2000000)] x)))
 
+(declare e15 e15')
+
+(defn e15 [x y]
+  (cond
+    (every? zero? [x y]) 1
+    (zero? x) (e15 x (dec y))
+    (zero? y) (e15 (dec x) y)
+    :else (+ (e15 (dec x) y) (e15 x (dec y)))))
+
 ;;========================================
 (defn -main
   "run some Euler functions"
