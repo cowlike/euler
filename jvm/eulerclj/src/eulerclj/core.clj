@@ -58,14 +58,16 @@
 (defn e10 []
   (apply + (for [x (gen-primes) :when (< x 2000000)] x)))
 
-(declare e15 e15')
+(declare e15m)
 
 (defn e15 [x y]
   (cond
     (every? zero? [x y]) 1
-    (zero? x) (e15 x (dec y))
-    (zero? y) (e15 (dec x) y)
-    :else (+ (e15 (dec x) y) (e15 x (dec y)))))
+    (zero? x) (e15m x (dec y))
+    (zero? y) (e15m (dec x) y)
+    :else (+ (e15m (dec x) y) (e15m x (dec y)))))
+
+(def e15m (memoize e15))
 
 ;;========================================
 (defn -main
