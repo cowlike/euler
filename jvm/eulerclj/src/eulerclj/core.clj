@@ -69,6 +69,16 @@
 
 (def e15m (memoize e15))
 
+(defn pow [n exp] 
+  (loop [n n exp exp result (bigint 1)] 
+    (if (zero? exp) 
+      result 
+      (recur n (dec exp) (* result n)))))
+
+(def e16 (apply + 
+                (map #(- (int %) 48) 
+                     (str (pow 2 1000)))))
+
 ;;========================================
 (defn -main
   "run some Euler functions"
