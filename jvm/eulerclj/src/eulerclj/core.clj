@@ -1,5 +1,6 @@
 (ns eulerclj.core
   (:use eulerclj.utils)
+  (:require [clojure.string :as str])
   (:gen-class))
 
 (defn e1 []
@@ -78,6 +79,35 @@
 (def e16 (apply + 
                 (map #(- (int %) 48) 
                      (str (pow 2 1000)))))
+
+(defn digits [n]
+  (loop [n n result []]
+    (if (zero? n) 
+      result
+      (recur (int (/ n 10)) (cons (mod n 10) result)))))
+
+(defn clean [s]
+  (-> s
+    (str/replace #"(.*)( and )$" "$1")
+    (str/replace #"(.*)(tenone)$" "$1eleven")
+    (str/replace #"(.*)(tentwo)$" "$1twelve")
+    (str/replace #"(.*)(tenthree)$" "$1thirteen")
+    (str/replace #"(.*)(tenfour)$" "$1fourteen")
+    (str/replace #"(.*)(tenfive)$" "$1fifteen")
+    (str/replace #"(.*)(tensix)$" "$1sixteen")
+    (str/replace #"(.*)(tenseven)$" "$1seventeen")
+    (str/replace #"(.*)(teneight)$" "$1eighteen")
+    (str/replace #"(.*)(tennine)$" "$1nineteen")))
+
+(def e17
+  (let [units (fn [u] (map #(if (empty? %) % (str % " " u " and ")) ones))
+        ones ["" "one" "two" "three" "four" "five" "six" "seven" "eight" "nine"]
+        tens ["" "ten" "twenty" "thirty" "forty" "fifty" "sixty" "seventy" "eighty" "ninety"]]
+    (take 1001 
+          (for [th (units "thousand") h (units "hundred") t tens o ones] 
+            (clean (str th h t o)))))) 
+
+;;(count (mapcat #(str/replace % #"\s" "") e17))
 
 ;;========================================
 (defn -main
