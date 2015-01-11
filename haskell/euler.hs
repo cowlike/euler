@@ -163,12 +163,6 @@ maxTuple (f1,s1) (f2,s2) = if s1 > s2 then (f1,s1) else (f2,s2)
 e14 = foldl1 maxTuple [(n, (length.collatz) n) | n <- [13..999999]]
 -- ===================================================================================
 
--- type Point = (Int,Int)
--- foo' :: Point -> [Point] -> [[Point]]
--- foo' (0,0) list = [[]]
--- foo' (0,y) list = 
-  -- | x == maxX && y == maxY = 
-
 foo (0,0) = [(0,0)]
 foo (0,y) = (0, y) : foo (0, (y - 1))
 foo (x,0) = (x, 0) : foo ((x - 1), 0)
@@ -180,15 +174,4 @@ e15 (0,y) = e15 (0, y - 1)
 e15 (x,0) = e15 (x - 1, 0)
 e15 (x,y) = e15 (x - 1, y) + e15 (x, y - 1)
 
-e15' (0,0) sum = sum
-e15' (0,y) sum = e15' (0, y - 1) (sum + 1)
-e15' (x,0) sum = e15' (x - 1, 0) (sum + 1)
-e15' (x,y) sum = (e15' (x - 1, y) (sum + 1)) + (e15' (x, y - 1) (sum + 1))
 
--- sum [1 | (x,y) <- e15 (20,20), x == 0, y == 0]
--- [t | t <- let max=2 in [(x,y) | x <- [0..max], y <- [0..max]], if x==0 || y == 0 then 1 else 2 ]
-atBoundary min max (x,y) = x == min || x == max || y == min || y == max
-moves min max (x,y) = if not (atBoundary min max (x,y)) || (x == min && y == min) then 2 else 1
-grid x y = [(x,y) | x <- [0..x], y <- [0..y]]
-
-pairs xs = zip xs (tail xs)
